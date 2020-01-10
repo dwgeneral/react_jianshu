@@ -1,11 +1,47 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
-import { HeaderWraper, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper } from './style'
 import { actionCreators } from './store'
+import {
+  HeaderWraper,
+  Logo,
+  Nav,
+  NavItem,
+  NavSearch,
+  Addition,
+  Button,
+  SearchWrapper,
+  SearchInfo,
+  SearchInfoTitle,
+  SearchInfoSwitch,
+  SearchInfoList,
+  SearchInfoItem
+} from './style'
+
+const showHotSearch = (flag, list) => {
+  if (flag) {
+    return (
+      <SearchInfo>
+        <SearchInfoTitle>
+          热门搜索
+                <SearchInfoSwitch>换一批</SearchInfoSwitch>
+        </SearchInfoTitle>
+        <SearchInfoList>
+          { 
+            list.map((item)=>{
+              return(<SearchInfoItem key={item}>{item}</SearchInfoItem>)
+            })
+          }
+        </SearchInfoList>
+      </SearchInfo>
+    )
+  } else {
+    return null
+  }
+}
 
 const Header = (props) => {
-  const { focused, handleSearchFocus } = props
+  const { focused, handleSearchFocus, list } = props
   return (
     <HeaderWraper >
       <Logo />
@@ -25,6 +61,7 @@ const Header = (props) => {
             />
           </CSSTransition>
           <i className={focused ? 'focused iconfont' : 'iconfont'}>&#xe62d;</i>
+          { showHotSearch(focused, list) }
         </SearchWrapper>
       </Nav>
       <Addition>
@@ -40,13 +77,15 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    focused: state.getIn(['headerReducer', 'focused'])
+    focused: state.getIn(['headerReducer', 'focused']),
+    list: state.getIn(['headerReducer', 'list'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleSearchFocus(value){
+      dispatch(actionCreators.getHotSearch())
       dispatch(actionCreators.focusSearchAction(value))
     }
   }
