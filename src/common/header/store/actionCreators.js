@@ -4,7 +4,8 @@ import { fromJS } from 'immutable'
 
 const getHotSearchAction = (data) => ({
   type: actionTypes.GET_HOT_SEARCH,
-  data: fromJS(data)
+  data: fromJS(data),
+  totalPage: Math.ceil(data.length / perPage)
 })
 
 export const focusSearchAction = (value) => ({
@@ -26,3 +27,15 @@ export const getHotSearch = () => {
     })
   }
 }
+
+export const enterMouseAction = (value) => ({
+  type: actionTypes.MOUSE_ENTER,
+  value
+})
+
+export const clickSwitchAction = (value) => ({
+  type: actionTypes.CLICK_SWITCH,
+  value
+})
+
+export const perPage = 5
