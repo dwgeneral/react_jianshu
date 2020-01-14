@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { actionCreators } from './store'
@@ -18,7 +18,7 @@ import {
   SearchInfoItem
 } from './style'
 
-class Header extends Component {
+class Header extends PureComponent {
 
   showHotSearch() {
     const { focused, list, page, totalPage, handleMouseEnter, mouseIn, handleSwitchClick } = this.props
